@@ -63,9 +63,9 @@ var io = require('socket.io')(server);
 
 
 setInterval(function () {
-  for (var i = 0; i < 10; i++) {
-    var x = randomInteger(-2400, 2400);
-    var y = randomInteger(-2400, 2400);
+  for (var i = 0; i < 20; i++) {
+    var x = randomInteger(-5000, 5000);
+    var y = randomInteger(-5000, 5000);
     bots.push(new Bot(bots.length+i,x, y, 16));
   }
 }, 5000)
@@ -73,11 +73,11 @@ setInterval(function () {
 
 setInterval(function () {
   for (var i = 0; i < 10; i++) {
-    var x = randomInteger(-2400, 2400);
-    var y = randomInteger(-2400, 2400);
+    var x = randomInteger(-5000, 5000);
+    var y = randomInteger(-5000, 5000);
     enemies[i] = new Enemy(enemies.length+i,x, y, randomInteger(78, 120));
   }
-}, 100000)
+}, 50000)
 
 
 setInterval(function () {
@@ -89,14 +89,14 @@ setInterval(function () {
 }, 33)
 
 for (var i = 0; i < 200; i++) {
-  var x = randomInteger(-2400, 2400);
-  var y = randomInteger(-2400, 2400);
+  var x = randomInteger(-5000, 5000);
+  var y = randomInteger(-5000, 5000);
   bots.push(new Bot(bots.length+i,x, y, 16));
 }
 for (var i = 0; i < 10; i++) {
-  var x = randomInteger(-2400, 2400);
-  var y = randomInteger(-2400, 2400);
-  enemies[i] = new Enemy(enemies.length+i,x, y, randomInteger(78, 120));
+  var x = randomInteger(-5000, 5000);
+  var y = randomInteger(-5000, 5000);
+  enemies[i] = new Enemy(enemies.length+i,x, y, randomInteger(130, 420));
 }
 
 io.sockets.on('connection',function(socket) {

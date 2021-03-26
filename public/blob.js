@@ -3,6 +3,7 @@ function Blob(x, y, r) {
   this.r = r;
   this.vel = createVector(0, 0);
   this.noisePower = this.r *0.5
+  this.speed = 15
 
 
 
@@ -13,9 +14,8 @@ function Blob(x, y, r) {
   // fill(Math.floor(Math.random() * 255),Math.floor(Math.random() * 255),Math.floor(Math.random() * 255));
   
   this.update = function () {
-    
     var newvel = createVector(mouseX - width / 2, mouseY - height / 2);
-    newvel.setMag(3);
+    newvel.setMag(this.speed);
     this.vel.lerp(newvel, 0.2);
     this.pos.add(this.vel);
   };
@@ -27,6 +27,11 @@ function Blob(x, y, r) {
         if (this.r > other.r) {
           var sum = PI * this.r * this.r + PI * other.r * other.r;
           this.r = sqrt(sum / PI);
+          if (this.speed <= 3) {
+            this.speed = 3
+          } else {
+            this.speed = this.speed-other.r/1800;
+          }
           //this.r += other.r;
           return true;
         }
@@ -39,6 +44,11 @@ function Blob(x, y, r) {
         if (this.r > other.r) {
           var sum = PI * this.r * this.r + PI * other.r * other.r;
           this.r = sqrt(sum / PI);
+          if (this.speed <= 3) {
+            this.speed = 3
+          } else {
+            this.speed = this.speed-other.r/2000;
+          }
           //this.r += other.r;
           return true;
         }
@@ -49,7 +59,12 @@ function Blob(x, y, r) {
       var d = p5.Vector.dist(this.pos, createVector(other.x, other.y))+55;
       if (d < this.r + other.r) {
         if (this.r > other.r+40) {
-          this.r = this.r-other.r*1.2
+          this.r = this.r - other.r * 1.2
+          if (this.speed <= 3) {
+            this.speed = 3
+          } else {
+            this.speed = this.speed+(this.r/PI)/800;
+          }
           //this.r += other.r;
           return true;
         }
@@ -59,8 +74,8 @@ function Blob(x, y, r) {
     }
   }
   this.constrain = function() {
-    blob.pos.x = constrain(blob.pos.x, -2400+this.r, 2400-this.r);
-    blob.pos.y = constrain(blob.pos.y, -2400+this.r, 2400-this.r);
+    blob.pos.x = constrain(blob.pos.x, -5000+this.r, 5000-this.r);
+    blob.pos.y = constrain(blob.pos.y, -5000+this.r, 5000-this.r);
   };
   this.shot = function () {
     if (this.r > 94) {

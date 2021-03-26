@@ -29,7 +29,7 @@ function setup() {
   if (params.get('username') === null) {
     window.location.href = "/login.html";
   } 
-  blob = new Blob(random(width), random(2400), 64);
+  blob = new Blob(random(width), random(5000), 64);
   data = {
     x: blob.pos.x,
     y: blob.pos.y,
@@ -58,7 +58,7 @@ function draw() {
   zoom = lerp(zoom, newzoom, 0.1);
   scale(zoom);
   translate(-blob.pos.x, -blob.pos.y);
-  rect(-2400,-2400,2400*2,2400*2)
+  rect(-5000,-5000,5000*2,5000*2)
   for (var i = blobs.length - 1; i >= 0; i--) {
 
 
@@ -140,10 +140,6 @@ function draw() {
         green: blobs[i].green,
         blue: blobs[i].blue
       });
-      // fill(0);
-      // textAlign(CENTER);
-      // textSize(15*(blobs[i].r/40));
-      // text(blobs[i].username, blobs[i].x, blobs[i].y + blobs[i].r * 1.25);
     }
     i++
   }
