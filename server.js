@@ -23,8 +23,9 @@ function Enemy(id, x, y, r) {
   this.blue = 0
 }
 
-function Blob(id, x, y, r) {
+function Blob(id, username, x, y, r) {
   this.id = id;
+  this.username = username
   this.x = x;
   this.y = y;
   this.r = r;
@@ -62,12 +63,12 @@ var io = require('socket.io')(server);
 
 
 setInterval(function () {
-  for (var i = 0; i < 50; i++) {
+  for (var i = 0; i < 10; i++) {
     var x = randomInteger(-2400, 2400);
     var y = randomInteger(-2400, 2400);
     bots.push(new Bot(bots.length+i,x, y, 16));
   }
-}, 20000)
+}, 5000)
 
 
 setInterval(function () {
@@ -97,14 +98,13 @@ for (var i = 0; i < 10; i++) {
   var y = randomInteger(-2400, 2400);
   enemies[i] = new Enemy(enemies.length+i,x, y, randomInteger(78, 120));
 }
-// Register a callback function to run when we have an individual connection
-// This is run for each individual user that connects
+
 io.sockets.on('connection',function(socket) {
   console.log('We have a new client: ' + socket.id);
   
   
   socket.on('start', function(data) {
-      var blob = new Blob(socket.id, data.x, data.y, 64)
+      var blob = new Blob(socket.id, data.username, data.x, data.y, 64)
       blobs.push(blob)
       
     });

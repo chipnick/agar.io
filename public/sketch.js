@@ -25,10 +25,15 @@ function setup() {
   createCanvas(window.innerWidth - 20, window.innerHeight - 20);
   angleMode(DEGREES);
   noStroke();
+  let params = (new URL(window.location.href)).searchParams;
+  if (params.get('username') === null) {
+    window.location.href = "/login.html";
+  } 
   blob = new Blob(random(width), random(2400), 64);
   data = {
     x: blob.pos.x,
     y: blob.pos.y,
+    username: params.get('username'),
   }
   socket.emit('start', data);
   
@@ -76,7 +81,7 @@ function draw() {
       fill(0);
       textAlign(CENTER);
       textSize(15*(blobs[i].r/40));
-      text(blobs[i].id, blobs[i].x, blobs[i].y + blobs[i].r * 1.25);
+      text(blobs[i].username, blobs[i].x, blobs[i].y - blobs[i].r * 1.25);
 
       if (blob.eats(blobs[i],'blob')) {
         socket.emit('eaten',{
@@ -115,7 +120,7 @@ function draw() {
         let ynoise = (noise(frameCount * 0.02 + ee) - 0.5) * 70;
         vertex(x + xnoise, y + ynoise);
       }
-      endShape(CLOSE);
+      endShape(CLOSE);0
 
     if (blob.eats(enemies[i],'enemy')) {
       socket.emit('eaten',{
@@ -135,6 +140,10 @@ function draw() {
         green: blobs[i].green,
         blue: blobs[i].blue
       });
+      // fill(0);
+      // textAlign(CENTER);
+      // textSize(15*(blobs[i].r/40));
+      // text(blobs[i].username, blobs[i].x, blobs[i].y + blobs[i].r * 1.25);
     }
     i++
   }

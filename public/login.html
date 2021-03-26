@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="post" id='username_f'>
+        <input class="form-control" type="text" name="username" id='username_i'>
+    </form>
+
+    <script>
+        var User_form = document.getElementById('username_f');
+        var User_input = document.getElementById('username_i');
+
+        User_form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (User_input.value) {
+                window.location.href = "/?username="+User_input.value;
+            }
+        });
+    </script>
+</body>
+</html>
