@@ -28,8 +28,8 @@ function setup() {
   let params = (new URL(window.location.href)).searchParams;
   if (params.get('username') === null) {
     window.location.href = "/login.html";
-  } 
-  blob = new Blob(random(width), random(5000), 64);
+  }
+  blob = new Blob(random(width), random(5000), 64)
   data = {
     x: blob.pos.x,
     y: blob.pos.y,
@@ -78,10 +78,14 @@ function draw() {
         vertex(x + xnoise, y + ynoise);
       }
       endShape(CLOSE);
-      fill(0);
+      
+      fill(255);
       textAlign(CENTER);
-      textSize(15*(blobs[i].r/40));
-      text(blobs[i].username, blobs[i].x, blobs[i].y - blobs[i].r * 1.25);
+      textSize(15 * (blob.r / 50));
+      stroke('black');
+      strokeWeight(5);
+      text(blobs[i].username, blobs[i].x, blobs[i].y);
+      strokeWeight(0);
 
       if (blob.eats(blobs[i],'blob')) {
         socket.emit('eaten',{

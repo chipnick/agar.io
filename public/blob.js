@@ -4,8 +4,8 @@ function Blob(x, y, r) {
   this.vel = createVector(0, 0);
   this.noisePower = this.r *0.5
   this.speed = 15
-
-
+  
+  
 
 
 
@@ -63,7 +63,7 @@ function Blob(x, y, r) {
           if (this.speed <= 3) {
             this.speed = 3
           } else {
-            this.speed = this.speed+(this.r/PI)/800;
+            this.speed = this.speed+(this.r/PI)/8;
           }
           //this.r += other.r;
           return true;
@@ -85,6 +85,7 @@ function Blob(x, y, r) {
     return false
   }
   this.show = function(data) {
+    this.noisePower = this.r *0.5
     fill(data.red,data.green, data.blue);
     // ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
     beginShape();

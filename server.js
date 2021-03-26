@@ -77,7 +77,7 @@ setInterval(function () {
     var y = randomInteger(-5000, 5000);
     enemies[i] = new Enemy(enemies.length+i,x, y, randomInteger(78, 120));
   }
-}, 50000)
+}, 20000)
 
 
 setInterval(function () {
