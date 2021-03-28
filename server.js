@@ -6,6 +6,8 @@ function randomInteger(min, max) {
   let rand = min - 0.5 + Math.random() * (max - min + 1);
   return Math.round(rand);
 }
+
+
 // Create the app
 var app = express();
 var blobs = [];
@@ -63,10 +65,13 @@ var io = require('socket.io')(server);
 
 
 setInterval(function () {
-  for (var i = 0; i < 20; i++) {
+  for (var i = 0; i < 50; i++) {
     var x = randomInteger(-5000, 5000);
     var y = randomInteger(-5000, 5000);
     bots.push(new Bot(bots.length+i,x, y, 16));
+  }
+  if (bots.length >= 1000) {
+    bots = bots.slice(0, 1000)
   }
 }, 5000)
 
@@ -75,7 +80,15 @@ setInterval(function () {
   for (var i = 0; i < 10; i++) {
     var x = randomInteger(-5000, 5000);
     var y = randomInteger(-5000, 5000);
-    enemies[i] = new Enemy(enemies.length+i,x, y, randomInteger(78, 120));
+    blobs_i = 0;
+    while (blobs_i < blobs.length) {
+      if (blobs[blobs_i].x === x && blobs[blobs_i].y === y) {
+        var x = randomInteger(-5000, 5000);
+        var y = randomInteger(-5000, 5000);
+      }
+      blobs_i++
+    }
+    enemies[i] = new Enemy(enemies.length+i,x, y, randomInteger(320, 500));
   }
 }, 20000)
 

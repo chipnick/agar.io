@@ -38,7 +38,7 @@ function Blob(x, y, r) {
       } else {
         return false;
       }
-    }else if (type == 'bot') {
+    } else if (type == 'bot') {
       var d = p5.Vector.dist(this.pos, createVector(other.x, other.y));
       if (d < this.r + other.r) {
         if (this.r > other.r) {
@@ -55,11 +55,11 @@ function Blob(x, y, r) {
       } else {
         return false;
       }
-    }else if (type == 'enemy') {
+    } else if (type == 'enemy') {
       var d = p5.Vector.dist(this.pos, createVector(other.x, other.y))+55;
       if (d < this.r + other.r) {
         if (this.r > other.r+40) {
-          this.r = this.r - other.r * 1.2
+          this.r = this.r - other.r
           if (this.speed <= 3) {
             this.speed = 3
           } else {
@@ -89,13 +89,16 @@ function Blob(x, y, r) {
     fill(data.red,data.green, data.blue);
     // ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
     beginShape();
-    for (let i = 0; i < 20; i++) {
+    i = 0
+    while(i < 20){
       let angle = (360 / 20) * i;
       let x = cos(angle) * this.r + this.pos.x;
       let y = sin(angle) * this.r + this.pos.y;
       let xnoise = (noise(frameCount * 0.02 + i) - 0.5) * this.noisePower;
       let ynoise = (noise(frameCount * 0.02 + i) - 0.5) * this.noisePower;
       vertex(x + xnoise, y + ynoise);
+
+      i++
     }
     endShape(CLOSE);
   };

@@ -4,6 +4,7 @@ var blobs = [];
 var bots = [];
 var enemies = [];
 var zoom = 1;
+var username;
 
 var socket = io.connect('http://192.168.1.102:3000');
 
@@ -16,9 +17,11 @@ function makeid(length) {
   }
   return result;
 }
-
-
-
+function randomInteger(min, max) {
+  // получить случайное число от (min-0.5) до (max+0.5)
+  let rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
+}
   
 
 function setup() {
@@ -26,14 +29,15 @@ function setup() {
   angleMode(DEGREES);
   noStroke();
   let params = (new URL(window.location.href)).searchParams;
-  if (params.get('username') === null) {
+  username = params.get('username')
+  if (username === null) {
     window.location.href = "/login.html";
   }
-  blob = new Blob(random(width), random(5000), 64)
+  blob = new Blob(randomInteger(-5000,5000), randomInteger(-5000,5000), 64)
   data = {
     x: blob.pos.x,
     y: blob.pos.y,
-    username: params.get('username'),
+    username: username,
   }
   socket.emit('start', data);
   
@@ -59,8 +63,18 @@ function draw() {
   scale(zoom);
   translate(-blob.pos.x, -blob.pos.y);
   rect(-5000,-5000,5000*2,5000*2)
-  for (var i = blobs.length - 1; i >= 0; i--) {
 
+  document.getElementById('player_data').innerHTML = username + ': <span class="score">' + Math.floor(blob.r) + '</span>'
+  blobs_i = 0
+  code = 'Player List:\n'
+  while (blobs_i < blobs.slice(0,10).length) {
+    code= code + '<div id="toper">#'+blobs_i+' '+blobs[blobs_i].username+': '+Math.floor(blobs[blobs_i].r)+'</div>\n'
+
+    blobs_i ++
+  }
+  document.getElementById('top').innerHTML = code
+
+  for (var i = blobs.length - 1; i >= 0; i--) {
 
     var id = blobs[i].id;
     if (id !== socket.id) {
@@ -69,13 +83,15 @@ function draw() {
 
       // console.log(blobs[i])
       beginShape();
-      for (let ee = 0; ee < 20; ee++) {
+      ee = 0
+      while(ee < 20){
         let angle = (360 / 20) * ee;
         let x = cos(angle) * blobs[i].r + blobs[i].x;
         let y = sin(angle) * blobs[i].r + blobs[i].y;
         let xnoise = (noise(frameCount * 0.02 + ee) - 0.5) * blobs[i].r*0.5;
         let ynoise = (noise(frameCount * 0.02 + ee) - 0.5) * blobs[i].r*0.5;
         vertex(x + xnoise, y + ynoise);
+        ee++
       }
       endShape(CLOSE);
       
@@ -116,15 +132,18 @@ function draw() {
 
     fill(enemies[i].red,enemies[i].green,enemies[i].blue);
     beginShape();
-      for (let ee = 0; ee < 7; ee++) {
-        let angle = (360 / 7) * ee;
-        let x = cos(angle) * enemies[i].r + enemies[i].x;
-        let y = sin(angle) * enemies[i].r + enemies[i].y;
-        let xnoise = (noise(frameCount * 0.02 + ee) - 0.5) * 70;
-        let ynoise = (noise(frameCount * 0.02 + ee) - 0.5) * 70;
-        vertex(x + xnoise, y + ynoise);
-      }
-      endShape(CLOSE);0
+    ee = 0
+    while(ee < 7) {
+      let angle = (360 / 7) * ee;
+      let x = cos(angle) * enemies[i].r + enemies[i].x;
+      let y = sin(angle) * enemies[i].r + enemies[i].y;
+      let xnoise = (noise(frameCount * 0.02 + ee) - 0.5) * 70;
+      let ynoise = (noise(frameCount * 0.02 + ee) - 0.5) * 70;
+      vertex(x + xnoise, y + ynoise);
+      ee++
+    }
+    endShape(CLOSE);0
+
 
     if (blob.eats(enemies[i],'enemy')) {
       socket.emit('eaten',{

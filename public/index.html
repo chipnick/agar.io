@@ -7,7 +7,34 @@
   <script src="/sketch.js"></script>
   <script src="/blob.js"></script>
 </head>
-
 <body>
+  <style>
+    #player_data {
+      position: absolute;
+      top: 23px;
+      left: 24px;
+      font-size: 27px;
+      /* -webkit-text-stroke: 0.5px white; */
+      text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+    }
+    #top {
+      position: absolute;
+      left: 83%;
+      text-align: center;
+      font-size: 21px;
+      top: 23px;
+      text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+    }
+  </style>
+
+
+
+  <div class="ui">
+    <div id='player_data'>CHIPNICK : <span class="score">12</span></div>
+    <div id='top'>Player list:
+      <div id="toper">#1 Chipnick: 1570</div>
+      <div id="toper">#2 Azelenuj: 205</div>
+    </div>
+  </div>
 </body>
 </html>
